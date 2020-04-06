@@ -1,0 +1,28 @@
+.bg-gradient-green {
+  background-color : #05943E !important;
+  border-color: #05943E !important;
+  background-size  :  cover;
+}
+
+.lato {
+  font-family: Lato;
+}
+
+.sidebar-dark .nav-item .nav-link {
+  color: #fff;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #05943E;
+  }
+}
+
+.sidebar-dark .nav-item .nav-link i {
+  color: #fff;
+}
+
+.btn-black {
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
