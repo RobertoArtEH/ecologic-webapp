@@ -1,1 +1,81 @@
 <h1 class="h3 mb-4 text-gray-800">Estadísticas</h1>
+
+<!-- Content Row -->
+<div class="row">
+
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card shadow h-100 py-2">
+      <div class="card-body py-2">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-uppercase mb-1">Humedad</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">27%</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-tint fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card shadow h-100 py-2">
+      <div class="card-body py-2">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-uppercase mb-1">Regado hace...</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">30 días, 12h</div>
+          </div>
+          <div class="col-auto">
+            <i class="far fa-clock fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Content Row -->
+
+<!-- Content Row -->
+<div class="row">
+
+  <!-- Area Chart -->
+  <div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-gray-800">Humedad de Plantas</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="humidityChart">{{ humidityChart }}</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-gray-800">Nivel de luz (LDR)</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-pie pt-4 pb-2">
+          <canvas id="lightChart">{{ lightChart }}</canvas>
+        </div>
+        <div class="mt-4 text-center small">
+          <span class="mr-2">
+            <i class="fas fa-circle text-primary"></i> Nivel de luz (LDR)
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Content Row -->
