@@ -14,11 +14,12 @@ class UserController {
     try {
       let save = await user.save();
 
-      if(save) {
+      if(save)
         return response.status(201).json(user);
-      }
+
+      return response.status(401).json({ error: 'Ha ocurrido un error.' });
     } catch(error) {
-      return response.status(401);
+      return response.status(401).json(error.message);
     }
   }
 
@@ -28,7 +29,10 @@ class UserController {
     try {
       const token = await auth.attempt(email, password);
 
-      return response.status(201).json(token);
+      if(token)
+        return response.status(201).json(token);
+
+      return response.status(401).json({ error: 'Credenciales incorrectas.' });
     } catch(error) {
       return response.status(401).json(error.message);
     }
@@ -50,6 +54,10 @@ class UserController {
     }
 
     return auth.user;
+  }
+
+  async showAll({ request, response }) {
+    return response.status(200).json(await User.all());
   }
 }
 

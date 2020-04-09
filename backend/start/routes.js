@@ -18,16 +18,20 @@ const Route = use('Route')
 
 Route
   .post('login', 'UserController.login')
-  .middleware('guest')
+  .middleware('guest');
 
 Route
   .post('register', 'UserController.register')
-  .middleware('guest')
+  .middleware('guest');
 
 Route
   .get('logout', 'UserController.logout')
   .middleware('auth')
 
 Route
+  .get('users/all', 'UserController.showAll')
+  .middleware('auth');
+
+Route
   .get('users/:id', 'UserController.show')
-  .middleware('auth')
+  .middleware('auth');
