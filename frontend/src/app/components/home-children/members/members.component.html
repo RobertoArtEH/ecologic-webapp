@@ -1,1 +1,40 @@
 <h1 class="h3 mb-4 text-gray-800">Miembros</h1>
+
+<div class="table-responsive shadow">
+  <table class="table table-sm table-hover">
+
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Email</th>
+        <th *ngIf="user.role == 1" scope="col">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let member of members; let i = index" [attr.data-index]="i">
+        <th scope="row">{{ i+ 1 }}</th>
+        <td>{{ member.name }}</td>
+        <td>{{ member.last_name }}</td>
+        <td>{{  member.email }}</td>
+        <td *ngIf="user.role == 1">
+          <button *ngIf="member.status == 1" class="btn btn-success btn-sm btn-icon-split mb-1" data-toggle="tooltip" title="Activar/Desactivar miembro">
+            <span class="icon text-white-50">
+              <i class="fas fa-circle"></i>
+            </span>
+            <span class="text">Activo</span>
+          </button>
+          <button *ngIf="member.status == 0" class="btn btn-warning btn-sm btn-icon-split mb-1" data-toggle="tooltip" title="Activar/Desactivar miembro">
+            <span class="icon text-white-50">
+              <i class="far fa-circle"></i>
+            </span>
+            <span class="text">Bloqueado</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    
+  </table>
+</div>
