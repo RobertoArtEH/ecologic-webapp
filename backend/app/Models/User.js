@@ -38,6 +38,10 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+
+  isActive() {
+    return (this.status == 1) ? true : false;
+  }
 }
 
 module.exports = User

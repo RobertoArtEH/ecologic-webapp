@@ -18,7 +18,7 @@ const Route = use('Route')
 
 Route
   .post('login', 'UserController.login')
-  .middleware('guest');
+  .middleware(['guest', 'checkUserStatus']);
 
 Route
   .post('register', 'UserController.register')

@@ -14,7 +14,7 @@
                     <img src="assets/images/logo-secundary.png" height="80" alt="Eco-logic">
                     <h1 class="h4 text-gray-900 mb-4 mt-2">Iniciar sesión</h1>
                     <div *ngIf="error" class="alert alert-danger" role="alert">
-                      El email o la contraseña que ingresaste no coinciden con nuestros registros.
+                      {{ messageError }}
                     </div>
                   </div>
                   <form autocomplete="on" class="user" [formGroup]="form" (ngSubmit)="login()">

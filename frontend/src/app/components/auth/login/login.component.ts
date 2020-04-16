@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   error: boolean = false;
+  messageError: string;
 
   constructor(
     private fb: FormBuilder,
@@ -41,13 +42,13 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.login(this.form.value).subscribe(response => {
-      console.log(response);
       localStorage.setItem('user', JSON.stringify(response.user));
       localStorage.setItem('token', response.token.token);
 
       this.router.navigate(['']);
     },
-    () => {
+    response => {
+      this.messageError = (response.error.error != null) ? response.error.error : 'El email o la contraseña que ingresaste no coinciden con nuestros registros.';
       this.error = true;
 
       setTimeout(() => this.error = false, 5000);
