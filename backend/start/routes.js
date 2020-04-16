@@ -26,12 +26,8 @@ Route
 
 Route
   .get('logout', 'UserController.logout')
-  .middleware('auth')
-
-Route
-  .get('users/all', 'UserController.showAll')
   .middleware('auth');
 
 Route
-  .get('users/:id', 'UserController.show')
-  .middleware('auth');
+  .get('users', 'UserController.showAll')
+  // .middleware('auth');
