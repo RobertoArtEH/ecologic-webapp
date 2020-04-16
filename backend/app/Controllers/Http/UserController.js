@@ -4,20 +4,22 @@ const User = use('App/Models/User');
 
 class UserController {
   async register({request, response}) {
-    const { username, email, password } = request.all();
+    const { name, last_name, email, password } = request.all();
     
     let user = new User();
-    user.username = username;
+    user.name = name;
+    user.last_name = last_name;
     user.email = email;
     user.password = password;
 
     try {
       let save = await user.save();
 
-      if(save)
+      if(save) {
         return response.status(201).json(user);
+      }
 
-      return response.status(401).json({ error: 'Ha ocurrido un error.' });
+      return response.status(401).json({ error: 'Ha ocurrido un error al registrar el usuario.' });
     } catch(error) {
       return response.status(401).json(error.message);
     }
@@ -28,9 +30,11 @@ class UserController {
     
     try {
       const token = await auth.attempt(email, password);
-
-      if(token)
-        return response.status(201).json(token);
+      const user = await User.query().where('email', email).first();
+      
+      if(token) {
+        return response.status(201).json({ user, token });
+      }
 
       return response.status(401).json({ error: 'Credenciales incorrectas.' });
     } catch(error) {
@@ -46,14 +50,6 @@ class UserController {
       .revokeTokensForUser(user);
 
     return response.status(204).send(null);
-  }
-
-  show({ auth, params }) {
-    if(auth.user.id !== Number(params.id)) {
-      return 'You cannot see someone else\'s profile';
-    }
-
-    return auth.user;
   }
 
   async showAll({ request, response }) {
