@@ -13,7 +13,7 @@ class UserController {
     user.password = password;
 
     try {
-      let save = await user.save();
+      const save = await user.save();
 
       if(save) {
         return response.status(201).json(user);
@@ -55,6 +55,27 @@ class UserController {
   async showAll({ request, response }) {
     return response.status(200).json(await User.all());
   }
+
+  async switchStatus({ request, response }) {
+    const { id, status } = request.all();
+
+    try {
+      const user = await User.query().where('id', id).first();
+  
+      user.status = (status == 1) ? 0 : 1;
+  
+      const save = await user.save();
+
+      if(save) {
+        return response.status(201).json(user);
+      }
+
+      return response.status(401).json({ error: 'Ha ocurrido un error al actualizar el usuario.' });
+    } catch (error) {
+      return response.status(401).json(error.message);
+    }
+  }
+
 }
 
 module.exports = UserController

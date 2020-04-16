@@ -31,3 +31,7 @@ Route
 Route
   .get('users', 'UserController.showAll')
   // .middleware('auth');
+
+Route
+  .put('status', 'UserController.switchStatus')
+  // .middleware('auth');

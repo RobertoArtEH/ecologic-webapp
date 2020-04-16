@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class UserService {
     
   getUsers() {
     return this.httpClient.get(environment.BASE_URL + 'users');
+  }
+
+  switchStatus(data): any {
+    return this.httpClient.put(environment.BASE_URL + 'status', data);
   }
 
 }
