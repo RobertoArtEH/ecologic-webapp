@@ -18,7 +18,6 @@ export class MembersComponent implements OnInit {
 
     this.userService.getUsers().subscribe(response => {
       this.members = response;
-      console.log(response);
     });
   }
 
