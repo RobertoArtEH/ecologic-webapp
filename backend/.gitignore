@@ -9,3 +9,6 @@ tmp
 
 # The development sqlite file
 database/*.sqlite
+
+# Firebase service account
+ecologic-center-firebase-adminsdk-9ip96-2e16028fc6.json
