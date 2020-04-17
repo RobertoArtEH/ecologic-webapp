@@ -30,8 +30,8 @@ Route
 
 Route
   .get('users', 'UserController.showAll')
-  // .middleware('auth');
+  .middleware('auth');
 
 Route
   .put('status', 'UserController.switchStatus')
-  // .middleware('auth');
+  .middleware(['auth', 'checkUserAdmin']);

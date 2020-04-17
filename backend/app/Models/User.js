@@ -42,6 +42,10 @@ class User extends Model {
   isActive() {
     return (this.status == 1) ? true : false;
   }
+
+  isAdmin() {
+    return (this.role == 1) ? true : false;
+  }
 }
 
 module.exports = User
