@@ -9,15 +9,15 @@ export class FirebaseService {
 
   constructor(private httpClient: HttpClient) { }
 
-  test() {
-    const data = {
-      member: 'Roberto Esqueda', 
-      humidity: 27, 
-      date: '17-04-2020', 
-      time: '10:30'
+  registerWater() {
+    const data2 = {
+      fecha: '16-04-2020',
+      hora: '12:30',
+      humedad: 25,
+      miembro: 'Luis Esqueda'
     }
 
-    return this.httpClient.post(environment.BASE_URL + 'test', data);
+    return this.httpClient.post(environment.BASE_URL + 'waterlog/register', data2);
   }
 
   waterLog() {

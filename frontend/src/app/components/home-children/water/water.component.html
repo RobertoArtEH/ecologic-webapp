@@ -1,4 +1,27 @@
 <h1 class="h3 mb-4 text-gray-800">Registro de riego</h1>
 
-<button (click)="getData()">Get</button>
-<button (click)="sendData()">Send data</button>
+<div class="table-responsive shadow">
+  <table class="table table-sm table-hover">
+
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Miembro</th>
+        <th scope="col">Humedad</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Hora</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let riego of riegos; let i = index" [attr.data-index]="i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ riego.miembro }}</td>
+        <td>{{ riego.humedad }}</td>
+        <td>{{  riego.fecha }}</td>
+        <td>{{  riego.hora }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

@@ -7,21 +7,15 @@ import { FirebaseService } from 'src/app/services/firebase.service';
   styleUrls: ['./water.component.scss']
 })
 export class WaterComponent implements OnInit {
-
+  riegos = [];
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
-  }
-
-  sendData() {
-    this.firebaseService.test().subscribe(response => {
-      console.log(response);
-    });
-  }
-
-  getData() {
     this.firebaseService.waterLog().subscribe(response => {
-      console.log(response);
+      for(const key in response) {
+        var i = Object.keys(response).indexOf(key);
+        this.riegos.push(Object.values(response)[i]);
+      }
     });
   }
 }

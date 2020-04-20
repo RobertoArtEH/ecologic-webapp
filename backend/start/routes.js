@@ -16,8 +16,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-/** 
- * User routes 
+/**
+ * User routes
  */
 
 /**
@@ -67,14 +67,14 @@ Route
   .put('status', 'UserController.switchStatus')
   .middleware(['auth', 'checkUserAdmin']);
 
-/** 
+/**
  * Firebase routes
  */
 
 Route
-  .post('test', 'FirebaseController.test')
+  .post('waterlog/register', 'FirebaseController.registerWater')
   .middleware(['auth'])
 
 Route
-  .get('waterlog', 'FirebaseController.waterLog')
+  .get('waterlog', 'FirebaseController.waterlog')
   .middleware(['auth'])
