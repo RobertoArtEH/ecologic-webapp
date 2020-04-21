@@ -1,18 +1,18 @@
-<h1 class="h3 mb-4 text-gray-800">Estadísticas</h1>
+<h1 class="h3 mb-0 text-gray-800 mb-4">Dashboard</h1>
 
 <!-- Content Row -->
 <div class="row">
 
-  <div class="col-xl-3 col-md-6 mb-4">
-    <div class="card shadow h-100 py-2">
+  <div *ngIf="sensor.humedadPlanta > 20" class="col-xl-3 col-md-6 mb-4">
+    <div class="card shadow border-left-warning hover h-100 py-2" data-toggle="modal" data-target="#waterModal">
       <div class="card-body py-2">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-uppercase mb-1">Humedad</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">27%</div>
+            <div class="text-xs font-weight-bold text-uppercase mb-1">Haz click para regar</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">Regar planta</div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-tint fa-2x text-gray-300"></i>
+            <i class="fas fa-exclamation fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -20,15 +20,15 @@
   </div>
 
   <div class="col-xl-3 col-md-6 mb-4">
-    <div class="card shadow h-100 py-2">
+    <div class="card shadow border-left-primary h-100 py-2">
       <div class="card-body py-2">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-uppercase mb-1">Regado hace...</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">30 días, 12h</div>
+            <div class="text-xs font-weight-bold text-uppercase mb-1">Humedad</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sensor.humedadPlanta ? sensor.humedadPlanta + '%' : 'Cargando...' }}</div>
           </div>
           <div class="col-auto">
-            <i class="far fa-clock fa-2x text-gray-300"></i>
+            <i class="fas fa-tint fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -65,13 +65,15 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div class="chart-pie pt-4 pb-2">
-          <canvas id="lightChart">{{ lightChart }}</canvas>
-        </div>
-        <div class="mt-4 text-center small">
-          <span class="mr-2">
-            <i class="fas fa-circle text-primary"></i> Nivel de luz (LDR)
-          </span>
+        <div>
+          <div class="chart-pie pt-4 pb-2">
+            <canvas id="lightChart">{{ lightChart }}</canvas>
+          </div>
+          <div class="mt-4 text-center small">
+            <span class="mr-2">
+              <i class="fas fa-circle text-primary"></i> Nivel de luz (LDR): {{ sensor.ldr ? sensor.ldr : 'Cargando...' }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -79,3 +81,29 @@
 
 </div>
 <!-- Content Row -->
+
+<div class="modal fade" id="waterModal" tabindex="-1" role="dialog" aria-labelledby="waterModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="waterModalLabel">Regar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning text-center" role="alert">
+          ¡Tu planta necesita regarse!
+        </div>
+        <form [formGroup]="form">
+          <label for="waterTime">Tiempo de riego</label>
+          <input formControlName="time" type="range" class="custom-range" value="10" min="10" max="60" id="waterTime">
+          <small id="waterHelp" class="form-text text-muted">Tiempo seleccionado: {{ form.get('time').value }} segundos.</small>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button (click)="water()" type="button" class="btn btn-block btn-success">Regar</button>
+      </div>
+    </div>
+  </div>
+</div>

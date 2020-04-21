@@ -62,14 +62,14 @@
               <span class="icon text-gray-600">
                 <i class="fas fa-tint"></i>
               </span>
-              <span class="text text-gray-600">56%</span>
+              <span class="text text-gray-600">{{ sensor.humedad ? sensor.humedad + '%' : '...' }}</span>
             </div>
   
             <div class="btn btn-light btn-sm btn-icon-split border-gray shadow" data-toggle="tooltip" title="Temperatura del ambiente">
               <span class="icon text-gray-600">
                 <i class="fas fa-thermometer-three-quarters"></i>
               </span>
-              <span class="text text-gray-600">24°C</span>
+              <span class="text text-gray-600">{{ sensor.temperatura ? sensor.temperatura + '°C' : '...' }}</span>
             </div>
           </li>
 
@@ -111,8 +111,3 @@
 
 </div>
 <!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>

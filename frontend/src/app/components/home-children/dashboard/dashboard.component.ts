@@ -1,5 +1,12 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Chart } from 'chart.js';
+import { PlantService } from 'src/app/services/plant.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Sensor } from 'src/app/models/sensor';
+import { Waterlog } from 'src/app/models/waterlog';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,14 +14,56 @@ import { Chart } from 'chart.js';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  form: FormGroup;
   lightChart: [];
   humidityChart: [];
+  sensorsLog: Array<Sensor> = [];
+  waterLog: Waterlog;
+  sensor: Sensor = {
+    fecha: undefined,
+    humedadPlanta: undefined,
+    ldr: undefined
+  };
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    private elementRef: ElementRef, 
+    private fb: FormBuilder,
+    private plantService: PlantService,
+    private firebaseService: FirebaseService
+  ) { }
+
+  water() {
+    if(!this.form.invalid) {
+      this.plantService.water(this.form.get('time').value).subscribe(response => {
+        this.firebaseService.registerWater(this.sensor.humedadPlanta).subscribe();
+      });
+    }
+  }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      time: [10, [Validators.required, Validators.pattern("^[0-9]*$")]],
+    });
+
+    this.firebaseService.sensors().subscribe(response => {
+      this.sensor = Object.values(response)[0];
+
+      this.initLightChart();
+    });
+
+    this.firebaseService.lastSensors().subscribe(response => {
+      for (const key in response) {
+        var i = Object.keys(response).indexOf(key);
+        this.sensorsLog.push(Object.values(response)[i]);
+      }
+
+      this.initHumidityChart();
+    });
+
+  }
+
+  initLightChart() {
     const lightChart = this.elementRef.nativeElement.querySelector(`#lightChart`);
-    const humidityChart = this.elementRef.nativeElement.querySelector(`#humidityChart`);
 
     this.lightChart = new Chart(lightChart, {
       type: 'doughnut',
@@ -22,7 +71,7 @@ export class DashboardComponent implements OnInit {
         labels: ['Nivel de luz (LDR)', 'Restante'],
         datasets: [
           {
-            data: [70, 30],
+            data: [this.sensor.ldr, (100 - this.sensor.ldr)],
             backgroundColor: ['#4e73df', '#1cc88a'],
             hoverBackgroundColor: ['#2e59d9', '#17a673'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -47,13 +96,19 @@ export class DashboardComponent implements OnInit {
         cutoutPercentage: 80,
       }
     });
+  }
+
+  initHumidityChart() {
+    const humidityChart = this.elementRef.nativeElement.querySelector(`#humidityChart`);
 
     this.humidityChart = new Chart(humidityChart, {
       type: 'line',
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: this.sensorsLog.map(log => {
+          return log.fecha.substr(12, 5);
+        }),
         datasets: [{
-          label: "Earnings",
+          label: "Humedad",
           lineTension: 0.3,
           backgroundColor: "rgba(78, 115, 223, 0.05)",
           borderColor: "rgba(78, 115, 223, 1)",
@@ -65,7 +120,7 @@ export class DashboardComponent implements OnInit {
           pointHoverBorderColor: "rgba(78, 115, 223, 1)",
           pointHitRadius: 10,
           pointBorderWidth: 2,
-          data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+          data: this.sensorsLog.map(log => log.humedadPlanta),
         }],
       },
       options: {
@@ -95,9 +150,8 @@ export class DashboardComponent implements OnInit {
             ticks: {
               maxTicksLimit: 5,
               padding: 10,
-              // Include a dollar sign in the ticks
               callback: function(value, index, values) {
-                return '$' + 1;
+                return value;
               }
             },
             gridLines: {
@@ -126,12 +180,6 @@ export class DashboardComponent implements OnInit {
           intersect: false,
           mode: 'index',
           caretPadding: 10,
-          callbacks: {
-            label: function(tooltipItem, chart) {
-              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-              return datasetLabel + ': $' + 1;
-            }
-          }
         }
       }
     });

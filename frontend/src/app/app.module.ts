@@ -12,11 +12,13 @@ import { WaterComponent } from './components/home-children/water/water.component
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { DashboardComponent } from './components/home-children/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    DashboardComponent,
     MembersComponent,
     WeatherComponent,
     WaterComponent,
