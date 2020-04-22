@@ -50,7 +50,7 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div *ngIf="humidityChart.length > 0" class="chart-area">
+        <div class="chart-area">
           <canvas id="humidityChart">{{ humidityChart }}</canvas>
         </div>
       </div>
@@ -65,7 +65,7 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div *ngIf="lightChart.length > 0">
+        <div>
           <div class="chart-pie pt-4 pb-2">
             <canvas id="lightChart">{{ lightChart }}</canvas>
           </div>
