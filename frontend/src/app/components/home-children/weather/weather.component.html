@@ -5,7 +5,6 @@
         <div class="card ">
           <div [ngStyle]="{'background-image': 'url(' + getBackground(item.description)  + ')'}" class="card-img-top">
           <div class="card-body">
-            <h5 class="card-title text-white">Lunes</h5>
             <h5 class="card-text text-white"> {{item.temperature}}° C</h5>
             <span [ngStyle]="{'background-color': getBadge(item.description)}" class="badge badge-primary"> {{item.description}} </span>
           </div>
