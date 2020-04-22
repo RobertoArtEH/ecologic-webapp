@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-3 mt-5" *ngFor="let item of day" >
         <div class="card ">
-          <img src="https://www.effeta.info/blog/wp-content/uploads/2017/02/despejado-calor.jpeg" class="card-img-top">
+          <div [ngStyle]="{'background-image': 'url(' + getBackground(item.description)  + ')'}" class="card-img-top">
           <div class="card-body">
-            <h5 class="card-title ">Lunes</h5>
-            <h5 class="card-text"> {{item.temperature}}° C</h5>
-            <p class="card-text"><small class="text-muted"> {{item.description}} </small></p>
+            <h5 class="card-title text-white">Lunes</h5>
+            <h5 class="card-text text-white"> {{item.temperature}}° C</h5>
+            <span [ngStyle]="{'background-color': getBadge(item.description)}" class="badge badge-primary"> {{item.description}} </span>
           </div>
         </div>
       </div>
