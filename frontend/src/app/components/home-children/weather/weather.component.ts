@@ -27,6 +27,9 @@ export class WeatherComponent implements OnInit {
       case "light rain":
         return "#F1C40F";
       break;
+      case "scattered clouds":
+        return '#34495E';
+      break;
       default:
         break;
     }
@@ -41,6 +44,9 @@ export class WeatherComponent implements OnInit {
       break;
       case "light rain":
         return 'https://p7.hiclipart.com/preview/810/1006/528/peshawar-light-rain-drop-precipitation-rain.jpg';
+      break;
+      case "scattered clouds":
+        return 'https://c1.staticflickr.com/3/2106/1909487867_de140c7eb8_b.jpg';
       break;
       default:
         break;
