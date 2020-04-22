@@ -53,23 +53,23 @@ Route
 
 Route
   .get('sensors', 'FirebaseController.sensors')
-  .middleware(['auth', 'checkUserLoggedStatus'])
+  .middleware(['auth', 'checkUserLoggedStatus']);
 
 Route
   .get('sensors/last', 'FirebaseController.lastSensors')
-  .middleware(['auth', 'checkUserLoggedStatus'])
+  .middleware(['auth', 'checkUserLoggedStatus']);
 
 Route
   .get('waterlog', 'FirebaseController.waterLog')
-  .middleware(['auth', 'checkUserLoggedStatus'])
+  .middleware(['auth', 'checkUserLoggedStatus']);
 
 Route
   .get('waterlog/last', 'FirebaseController.lastWaterLog')
-  .middleware(['auth', 'checkUserLoggedStatus'])
+  .middleware(['auth', 'checkUserLoggedStatus']);
   
 Route
-.post('waterlog/register', 'FirebaseController.registerWater')
-.middleware(['auth', 'checkUserLoggedStatus'])
+  .post('waterlog/register', 'FirebaseController.registerWater')
+  .middleware(['auth', 'checkUserLoggedStatus']);
   
 /** 
  *  🌱 Plant routes
@@ -81,4 +81,11 @@ Route
  */
 Route
   .post('water', 'PlantController.water')
+  .middleware(['auth', 'checkUserLoggedStatus']);
+
+/** 
+ *  ⛅ Weather routes
+ */
+Route
+  .get('weather/nextdays', 'WeatherController.nextDays')
   .middleware(['auth', 'checkUserLoggedStatus']);
