@@ -39,6 +39,7 @@ const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
   checkUserStatus: 'App/Middleware/CheckUserStatus',
+  checkUserLoggedStatus: 'App/Middleware/CheckUserLoggedStatus',
   checkUserAdmin: 'App/Middleware/CheckUserAdmin'
 }
 

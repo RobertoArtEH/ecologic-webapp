@@ -37,7 +37,7 @@ Route
  */
 Route
   .get('users', 'UserController.showAll')
-  .middleware('auth');
+  .middleware(['auth', 'checkUserLoggedStatus']);
 
 /**
  * Switch status route
@@ -45,7 +45,7 @@ Route
  */
 Route
   .put('status', 'UserController.switchStatus')
-  .middleware(['auth', 'checkUserAdmin']);
+  .middleware(['auth', 'checkUserAdmin', 'checkUserLoggedStatus']);
 
 /** 
  *  🔥 Firebase routes
@@ -53,23 +53,23 @@ Route
 
 Route
   .get('sensors', 'FirebaseController.sensors')
-  .middleware(['auth'])
+  .middleware(['auth', 'checkUserLoggedStatus'])
 
 Route
   .get('sensors/last', 'FirebaseController.lastSensors')
-  .middleware(['auth'])
+  .middleware(['auth', 'checkUserLoggedStatus'])
 
 Route
   .get('waterlog', 'FirebaseController.waterLog')
-  .middleware(['auth'])
+  .middleware(['auth', 'checkUserLoggedStatus'])
 
 Route
   .get('waterlog/last', 'FirebaseController.lastWaterLog')
-  .middleware(['auth'])
+  .middleware(['auth', 'checkUserLoggedStatus'])
   
 Route
 .post('waterlog/register', 'FirebaseController.registerWater')
-.middleware(['auth'])
+.middleware(['auth', 'checkUserLoggedStatus'])
   
 /** 
  *  🌱 Plant routes
@@ -81,4 +81,4 @@ Route
  */
 Route
   .post('water', 'PlantController.water')
-  .middleware(['auth']);
+  .middleware(['auth', 'checkUserLoggedStatus']);

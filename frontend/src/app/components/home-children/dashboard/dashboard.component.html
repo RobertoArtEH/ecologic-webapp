@@ -25,7 +25,7 @@
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-uppercase mb-1">Humedad</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sensor.humedadPlanta ? sensor.humedadPlanta + '%' : 'Cargando...' }}</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sensor.humedadPlanta ? sensor.humedadPlanta + '%' : '...' }}</div>
           </div>
           <div class="col-auto">
             <i class="fas fa-tint fa-2x text-gray-300"></i>
@@ -50,7 +50,7 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div class="chart-area">
+        <div *ngIf="humidityChart.length > 0" class="chart-area">
           <canvas id="humidityChart">{{ humidityChart }}</canvas>
         </div>
       </div>
@@ -65,7 +65,7 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <div>
+        <div *ngIf="lightChart.length > 0">
           <div class="chart-pie pt-4 pb-2">
             <canvas id="lightChart">{{ lightChart }}</canvas>
           </div>

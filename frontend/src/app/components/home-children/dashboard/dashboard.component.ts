@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  waterPlant(option) {
+  waterPlant(option: string) {
     if(option == 'adafruit') {
       if(!this.form.invalid) {
         this.plantService.water(this.form.get('time').value).subscribe(response => {
