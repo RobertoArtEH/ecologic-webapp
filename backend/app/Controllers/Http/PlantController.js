@@ -1,19 +1,22 @@
 'use strict'
 
 const fetch = use("node-fetch");
+const ApiKey = use('App/Models/ApiKey');
 
 class PlantController {
-  water({ request, response }) {
+  async water({ request, response }) {
     const { time } = request.all();
-
+    
     try {
+      const key = await ApiKey.query().where('api', 'adafruit').first();
+
       if(time == 10) {
         const body = { value: 'ON' };
 
         return fetch('https://io.adafruit.com/api/v2/Cesar_utt/feeds/bomba/data', {
           headers: {
             'Content-Type': 'application/json',
-            'X-AIO-Key': '05037193ee4a460eb2e5ba8bc1e91a45'
+            'X-AIO-Key': key.token
           },
           method: 'POST',
           body: JSON.stringify(body)
@@ -30,7 +33,7 @@ class PlantController {
         return fetch('https://io.adafruit.com/api/v2/Cesar_utt/feeds/bombatiempo/data', {
           headers: {
             'Content-Type': 'application/json',
-            'X-AIO-Key': '05037193ee4a460eb2e5ba8bc1e91a45'
+            'X-AIO-Key': key.token
           },
           method: 'POST',
           body: JSON.stringify(body)

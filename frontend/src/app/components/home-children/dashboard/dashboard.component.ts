@@ -5,8 +5,8 @@ import { PlantService } from 'src/app/services/plant.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Sensor } from 'src/app/models/sensor';
 import { Waterlog } from 'src/app/models/waterlog';
-import { DatePipe } from '@angular/common';
-import * as moment from 'moment';
+import Ws from '@adonisjs/websocket-client';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +14,11 @@ import * as moment from 'moment';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  // Ws
+  ws: any;
+  water: any;
+  values: number[] = [];
+
   form: FormGroup;
   lightChart: [];
   humidityChart: [];
@@ -32,19 +37,23 @@ export class DashboardComponent implements OnInit {
     private firebaseService: FirebaseService
   ) { }
 
-  water() {
-    if(!this.form.invalid) {
-      this.plantService.water(this.form.get('time').value).subscribe(response => {
-        this.firebaseService.registerWater(this.sensor.humedadPlanta).subscribe();
-      });
-    }
-  }
-
   ngOnInit(): void {
+    // Ws
+    this.ws = Ws('ws://localhost:3333');
+
+    this.ws.connect();
+    this.water = this.ws.subscribe('waterplant');
+
+    this.water.on('value', (data: any) => {
+      this.values.push(data);
+    });
+
+    // Range time
     this.form = this.fb.group({
       time: [10, [Validators.required, Validators.pattern("^[0-9]*$")]],
     });
 
+    //Firebase
     this.firebaseService.sensors().subscribe(response => {
       this.sensor = Object.values(response)[0];
 
@@ -60,6 +69,46 @@ export class DashboardComponent implements OnInit {
       this.initHumidityChart();
     });
 
+  }
+
+  waterPlant(option) {
+    if(option == 'adafruit') {
+      if(!this.form.invalid) {
+        this.plantService.water(this.form.get('time').value).subscribe(response => {
+          this.firebaseService.registerWater(this.sensor.humedadPlanta).subscribe();
+  
+          Swal.fire({
+            icon: 'success',
+            title: 'Regando',
+            text: response.message,
+            showConfirmButton: false,
+            timer: 2300
+          });
+        }, 
+        () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error.',
+            text: 'Intentalo más tarde...',
+            showConfirmButton: false,
+            timer: 2300
+          });
+        });
+      }
+    } else { // Ws
+      const time = this.form.get('time').value;
+
+      this.water.emit('water', time);
+      this.values.push(time);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Regando',
+        text: `La planta se empezará a regar en breve, por un tiempo de ${time} segundos.`,
+        showConfirmButton: false,
+        timer: 3500
+      });
+    }
   }
 
   initLightChart() {

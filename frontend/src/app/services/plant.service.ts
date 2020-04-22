@@ -9,7 +9,7 @@ export class PlantService {
 
   constructor(private httpClient: HttpClient) { }
 
-  water(time) {
+  water(time): any {
     const data = { time };
 
     return this.httpClient.post(environment.BASE_URL + 'water', data);
